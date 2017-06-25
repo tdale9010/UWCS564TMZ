@@ -1,0 +1,23 @@
+﻿@model MyFlix.Models.MovieDetailsModel
+@{
+    ViewBag.Title = "MovieDetailsView";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@Model.Title - @Model.Rating%</h2>
+<img src="@Model.ImageURL"/>
+
+<h3>Country of Origin: @Model.Country</h3>
+
+<h3>Directed By @Model.Director.Name</h3>
+
+<h3>Starring</h3>
+<ul>
+	@foreach(var actor in Model.Actors)
+	{
+		<li>
+			@actor.Name
+		</li>
+	}
+</ul>
+
