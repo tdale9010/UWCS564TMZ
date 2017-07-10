@@ -1,4 +1,11 @@
 DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Add_Tag`(In TagIn Varchar(254))
+BEGIN
+	Insert into tags values (TagIn);
+END$$
+DELIMITER ;
+
+DELIMITER $$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `Autocomplete_Actor`(IN SearchTerm Varchar(254))
 BEGIN
 	select Name from actors where Name like concat(SearchTerm,'%');
@@ -170,6 +177,20 @@ BEGIN
     
     
     ;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Tag_Movie`(IN MovieIDIN int, In TagIn Varchar(254))
+BEGIN
+	Insert into movietaggedas values (MovieIDIN,TagIn);
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Tag_Movie_Remove`(IN MovieIDIN int, In TagIn Varchar(254))
+BEGIN
+	Delete from movietaggedas where movieID=MovieIDIN and TagName=TagIn;
 END$$
 DELIMITER ;
 
