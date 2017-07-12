@@ -12,11 +12,12 @@ namespace MyFlix.Models
 	{
 		public int ID { get; set; }
 		public string Title { get; set; }
-		public DirectorModel Director { get; set; }
-		public List<ActorModel> Actors { get; set; }
+		public string Director { get; set; }
+		public List<string> Actors { get; set; }
 		public string Country { get; set; }
 		public List<string> Locations { get; set; }
 		public List<string> Tags { get; set; }
+		public List<string> Genres { get; set; }
 		public string ImageURL { get; set; }
 		public int Year { get; set; }
 		public decimal Rating { get; set; }
@@ -32,8 +33,6 @@ namespace MyFlix.Models
 				{
 					connection.Open();
 					GetMovieDetails();
-					Director = GetDirector(id, connection);
-					Actors = GetActors(id, connection);
 					connection.Close();
 				}
 				catch
@@ -45,87 +44,24 @@ namespace MyFlix.Models
 
 		private void GetMovieDetails()
 		{
-			MySqlCommand command = new MySqlCommand("select m.title, trim(both '\"' from m.imdbPictureURL), m.year, m.rtAllCriticsRating, mc.country from movies m join movie_countries mc on m.id = mc.movie_id where m.id = @id");
-			command.Parameters.AddWithValue("id", ID);
+			MySqlCommand command = new MySqlCommand("Movie_Info");
+			command.Parameters.AddWithValue("MovieId", ID);
 			command.Connection = connection;
+			command.CommandType = System.Data.CommandType.StoredProcedure;
 			MySqlDataReader dr = command.ExecuteReader();
 			while (dr.Read())
 			{
 				Title = dr.GetValue(0).ToString();
-				ImageURL = dr.GetValue(1).ToString();
-				Year = (int)dr.GetValue(2);
-				Rating = (decimal)dr.GetValue(3) * 10.0m;
-				Country = dr.GetValue(4).ToString();
+				Rating = (decimal)dr.GetValue(1) * 10.0m;
+				Director = dr.GetValue(2).ToString();
+				Genres = dr.GetValue(3).ToString().Split(',').ToList();
+				Actors = dr.GetValue(4).ToString().Split(',').ToList();
+				Locations = dr.GetValue(5).ToString().Split(',').ToList();
+				Country = dr.GetValue(6).ToString();
+				Tags = dr.GetValue(7).ToString().Split(',').ToList();
+				ImageURL = dr.GetValue(8).ToString().Trim('\"');
 			}
 			dr.Close();
-		}
-
-		public DirectorModel GetDirector(int movieID, MySqlConnection connection)
-		{
-			if (connection.State != System.Data.ConnectionState.Open)
-				throw new Exception("Expected open connection");
-
-			DirectorModel director = null;
-			MySqlCommand command = new MySqlCommand("select directorName from movie_directors where movieID = @movieID");
-			command.Parameters.AddWithValue("movieID", movieID);
-			command.Connection = connection;
-			MySqlDataReader dr = command.ExecuteReader();
-			while(dr.Read())
-			{
-				director = new DirectorModel(dr.GetValue(0).ToString());
-			}
-			dr.Close();
-
-			return director;
-		}
-
-		public List<ActorModel> GetActors(int movieID, MySqlConnection connection)
-		{
-			if (connection.State != System.Data.ConnectionState.Open)
-				throw new Exception("Expected open connection");
-
-			List<ActorModel> actors = new List<ActorModel>();
-			MySqlCommand command = new MySqlCommand("select actorName from movie_actors where movieID = @movieID");
-			command.Parameters.AddWithValue("movieID", movieID);
-			command.Connection = connection;
-			MySqlDataReader dr = command.ExecuteReader();
-			while (dr.Read())
-			{
-				actors.Add(new ActorModel(dr.GetValue(0).ToString()));
-			}
-			dr.Close();
-
-			return actors;
-		}
-	}
-
-	public class DirectorModel
-	{
-		public string Name { get; set; }
-
-		public DirectorModel()
-		{
-
-		}
-
-		public DirectorModel(string name)
-		{
-			Name = name;
-		}
-	}
-
-	public class ActorModel
-	{
-		public string Name { get; set; }
-
-		public ActorModel()
-		{
-
-		}
-
-		public ActorModel(string name)
-		{
-			Name = name;
-		}
+		}		
 	}
 }
