@@ -22,17 +22,16 @@ namespace MyFlix.Models
 		public int Year { get; set; }
 		public decimal Rating { get; set; }
 
-		private MySqlConnection connection;
 
 		public MovieDetailsModel(int id)
 		{
 			ID = id;
-			using(connection = new MySqlConnection(ConfigurationManager.ConnectionStrings["MyFlixDB"].ConnectionString))
+			using(MySqlConnection connection = new MySqlConnection(ConfigurationManager.ConnectionStrings["MyFlixDB"].ConnectionString))
 			{
 				try
 				{
 					connection.Open();
-					GetMovieDetails();
+					GetMovieDetails(connection);
 					connection.Close();
 				}
 				catch
@@ -42,7 +41,16 @@ namespace MyFlix.Models
 			}
 		}
 
-		private void GetMovieDetails()
+		public MovieDetailsModel(int id, MySqlConnection connection)
+		{
+			ID = id;
+			if(connection.State == System.Data.ConnectionState.Open)
+			{
+				GetMovieDetails(connection);
+			}
+		}
+
+		private void GetMovieDetails(MySqlConnection connection)
 		{
 			MySqlCommand command = new MySqlCommand("Movie_Info");
 			command.Parameters.AddWithValue("MovieId", ID);

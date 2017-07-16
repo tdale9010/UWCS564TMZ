@@ -1,0 +1,40 @@
+﻿@model MyFlix.Models.SearchModel
+@{
+	ViewBag.Title = "SearchView";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/Search.js"></script>
+
+
+<form id="searchForm">
+	<label>Title</label>
+	<input id="Title" name="Title"/>
+
+	<label>Rating</label>
+	<input id="Rating" name="Rating"/>
+
+	<label>Director</label>
+	<input id="Director" name="Director"/>
+
+	<label>Genre</label>
+	<input id="Genre" name="Genre"/>
+
+	<label>Actor</label>
+	<input id="Actor" name="Actor"/>
+
+	<label>Location</label>
+	<input id="Location" name="Location"/>
+
+	<label>Country</label>
+	<input id="Country" name="Country"/>
+
+	<label>Tag</label>
+	<input id="Tag" name="Tag"/>
+
+	<input type="button" id="submit" value="Submit"/>
+</form>
+
+<div id="results">
+
+</div>

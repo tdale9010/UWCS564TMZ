@@ -28,5 +28,18 @@ namespace MyFlix.Controllers
 			MovieDetailsModel model = new MovieDetailsModel(id);
 			return View(model);
 		}
+
+		[HttpGet]
+		public JsonResult SearchResults(SearchModel searchParams)
+		{
+			SearchResultsModel model = new SearchResultsModel(searchParams.Search());
+			return Json(model, JsonRequestBehavior.AllowGet);
+		}
+
+		public ActionResult Search()
+		{
+			SearchModel model = new SearchModel();
+			return View(model);
+		}
 	}
 }
