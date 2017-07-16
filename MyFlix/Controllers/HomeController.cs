@@ -9,13 +9,18 @@ using MyFlix.Models;
 
 namespace MyFlix.Controllers
 {
+	[Authorize]
 	public class HomeController : Controller
 	{
+		
 		public ActionResult Home()
 		{
-			return View();
+			UserModel model = new UserModel(User.Identity.Name);
+			return View(model);
 		}
 
+
+		[AllowAnonymous]
 		public ActionResult About()
 		{
 			ViewBag.Message = "MyFlix is an application etc....";

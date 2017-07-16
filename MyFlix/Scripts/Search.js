@@ -18,7 +18,7 @@
 
 				for (var i = 0; i < data.Movies.length; i++){
 					var row = $("<tr></tr>");
-					row.append($("<td>" + data.Movies[i].Title + "</td>"));
+					row.append($("<td><a href='/Home/MovieDetails?id=" + data.Movies[i].ID + "'>" + data.Movies[i].Title + "</a></td>"));
 					row.append($("<td>" + data.Movies[i].Director + "</td>"));
 					row.append($("<td>" + data.Movies[i].Rating + "</td>"));
 					row.append($("<td><img src='" + data.Movies[i].ImageURL + "' /></td>"));
