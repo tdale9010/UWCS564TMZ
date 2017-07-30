@@ -12,10 +12,22 @@ namespace MyFlix.Controllers
 	[Authorize]
 	public class HomeController : Controller
 	{
-		
+		private int? UserID
+		{
+			get
+			{
+				return Session["UserID"] as int?;
+			}
+			set
+			{
+				Session["UserID"] = value;
+			}
+		}
+
 		public ActionResult Home()
 		{
 			UserModel model = new UserModel(User.Identity.Name);
+			UserID = model.ID;
 			return View(model);
 		}
 
@@ -45,6 +57,96 @@ namespace MyFlix.Controllers
 		{
 			SearchModel model = new SearchModel();
 			return View(model);
+		}
+
+		public ActionResult AddFavorites(MovieIDModel idModel)
+		{
+			if (UserID.HasValue)
+			{
+				UserFavoriteModel model = new UserFavoriteModel(UserID.Value, idModel.ID);
+				model.Save();
+			}
+			else
+			{
+				// Handle invalid state
+				return new EmptyResult();
+			}
+			return Json(string.Empty);
+		}
+
+		public ActionResult AddFavoriteTag(TagModel tagModel)
+		{
+			if(UserID.HasValue)
+			{
+				UserTagModel model = new UserTagModel(UserID.Value, tagModel.Name);
+				model.Save();
+			}
+			else
+			{
+				// Handle invalid state
+				return new EmptyResult();
+			}
+			return Json(string.Empty);
+		}
+
+		public ActionResult AddFavoriteGenre(GenreModel genreModel)
+		{
+			if(UserID.HasValue)
+			{
+				UserGenreModel model = new UserGenreModel(UserID.Value, genreModel.Name);
+				model.Save();
+			}
+			else
+			{
+				// Handle invalid state
+				return new EmptyResult();
+			}
+			return Json(string.Empty);
+		}
+
+		public ActionResult RemoveFavoriteMovie(MovieIDModel movieModel)
+		{
+			if(UserID.HasValue)
+			{
+				UserFavoriteModel model = new UserFavoriteModel(UserID.Value, movieModel.ID);
+				model.Delete();
+			}
+			else
+			{
+				// Handle invalid state
+				return new EmptyResult();
+			}
+			return Json(string.Empty);
+		}
+
+		public ActionResult RemoveFavoriteGenre(GenreModel genreModel)
+		{
+			if (UserID.HasValue)
+			{
+				UserGenreModel model = new UserGenreModel(UserID.Value, genreModel.Name);
+				model.Delete();
+			}
+			else
+			{
+				// Handle invalid state
+				return new EmptyResult();
+			}
+			return Json(string.Empty);
+		}
+
+		public ActionResult RemoveFavoriteTag(TagModel tagModel)
+		{
+			if(UserID.HasValue)
+			{
+				UserTagModel model = new UserTagModel(UserID.Value, tagModel.Name);
+				model.Delete();
+			}
+			else
+			{
+				// Handle invalid state
+				return new EmptyResult();
+			}
+			return Json(string.Empty);
 		}
 	}
 }

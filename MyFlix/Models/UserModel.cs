@@ -17,14 +17,14 @@ namespace MyFlix.Models
 		public int ID { get; set; }
 		public string Username { get; set; }
 		public decimal MinRating { get; set; }
-		public List<string> FavoriteFilms { get; set; }
+		public Dictionary<int, string> FavoriteFilms { get; set; }
 		public List<string> FavoriteGenres { get; set; }
 		public List<string> FavoriteTags { get; set; }
 
 		public UserModel(string username)
 		{
 			Username = username;
-			FavoriteFilms = new List<string>();
+			FavoriteFilms = new Dictionary<int, string>();
 			FavoriteGenres = new List<string>();
 			FavoriteTags = new List<string>();
 			using (MySqlConnection connection = new MySqlConnection(ConfigurationManager.ConnectionStrings["MyFlixDB"].ConnectionString))
@@ -49,7 +49,7 @@ namespace MyFlix.Models
 					}
 					userDr.Close();
 
-					MySqlCommand filmsCommand = new MySqlCommand(@"Select m.Title from favoritefilms fm
+					MySqlCommand filmsCommand = new MySqlCommand(@"Select m.Title, m.movieId from favoritefilms fm
 																	inner join movies m on fm.MovieID=m.movieid
 																	where fm.userID=@UserIDIn;");
 					filmsCommand.Connection = connection;
@@ -58,7 +58,7 @@ namespace MyFlix.Models
 					MySqlDataReader filmsDr = filmsCommand.ExecuteReader();
 					while(filmsDr.Read())
 					{
-						FavoriteFilms.Add(filmsDr.GetValue(0).ToString());
+						FavoriteFilms.Add((int)filmsDr.GetValue(1), filmsDr.GetValue(0).ToString());
 					}
 					filmsDr.Close();
 
@@ -140,6 +140,192 @@ namespace MyFlix.Models
 					sBuilder.Append(data[i].ToString("x2"));
 				}
 				return sBuilder.ToString();
+			}
+		}
+	}
+
+	public class UserTagModel
+	{
+		public int UserID;
+		public string Tag;
+
+		public UserTagModel(int userID, string tag)
+		{
+			UserID = userID;
+			Tag = tag;
+		}
+
+		public void Save()
+		{
+			using (MySqlConnection connection = new MySqlConnection(ConfigurationManager.ConnectionStrings["MyFlixDB"].ConnectionString))
+			{
+				try
+				{
+					connection.Open();
+					MySqlCommand userCommand = new MySqlCommand("Favorite_Tag_Insert");
+					userCommand.Connection = connection;
+					userCommand.CommandType = System.Data.CommandType.StoredProcedure;
+					userCommand.Parameters.AddWithValue("UserIDIn", UserID);
+					userCommand.Parameters.AddWithValue("TagIn", Tag);
+					userCommand.ExecuteNonQuery();
+				}
+				catch
+				{
+					// Handle errors
+				}
+				finally
+				{
+					connection.Close();
+				}
+			}
+		}
+
+		public void Delete()
+		{
+			using (MySqlConnection connection = new MySqlConnection(ConfigurationManager.ConnectionStrings["MyFlixDB"].ConnectionString))
+			{
+				try
+				{
+					connection.Open();
+					MySqlCommand userCommand = new MySqlCommand("Favorite_Tag_Delete");
+					userCommand.Connection = connection;
+					userCommand.CommandType = System.Data.CommandType.StoredProcedure;
+					userCommand.Parameters.AddWithValue("UserIDIn", UserID);
+					userCommand.Parameters.AddWithValue("TagIn", Tag);
+					userCommand.ExecuteNonQuery();
+				}
+				catch
+				{
+					// Handle errors
+				}
+				finally
+				{
+					connection.Close();
+				}
+			}
+		}
+	}
+
+	public class UserGenreModel
+	{
+		public int UserID;
+		public string Genre;
+
+		public UserGenreModel(int userID, string genre)
+		{
+			UserID = userID;
+			Genre = genre;
+		}
+		
+		public void Save()
+		{
+			using (MySqlConnection connection = new MySqlConnection(ConfigurationManager.ConnectionStrings["MyFlixDB"].ConnectionString))
+			{
+				try
+				{
+					connection.Open();
+					MySqlCommand userCommand = new MySqlCommand("Favorite_Genre_Insert");
+					userCommand.Connection = connection;
+					userCommand.CommandType = System.Data.CommandType.StoredProcedure;
+					userCommand.Parameters.AddWithValue("UserIDIn", UserID);
+					userCommand.Parameters.AddWithValue("GenreIn", Genre);
+					userCommand.ExecuteNonQuery();
+				}
+				catch
+				{
+					// Handle errors
+				}
+				finally
+				{
+					connection.Close();
+				}
+			}
+		}
+
+		public void Delete()
+		{
+			using (MySqlConnection connection = new MySqlConnection(ConfigurationManager.ConnectionStrings["MyFlixDB"].ConnectionString))
+			{
+				try
+				{
+					connection.Open();
+					MySqlCommand userCommand = new MySqlCommand("Favorite_Genre_Delete");
+					userCommand.Connection = connection;
+					userCommand.CommandType = System.Data.CommandType.StoredProcedure;
+					userCommand.Parameters.AddWithValue("UserIDIn", UserID);
+					userCommand.Parameters.AddWithValue("GenreIn", Genre);
+					userCommand.ExecuteNonQuery();
+				}
+				catch
+				{
+					// Handle errors
+				}
+				finally
+				{
+					connection.Close();
+				}
+			}
+		}
+	}
+
+	public class UserFavoriteModel
+	{
+		public int UserID;
+		public int MovieID;
+
+		public UserFavoriteModel(int userID, int movieID)
+		{
+			UserID = userID;
+			MovieID = movieID;
+		}
+
+		public void Save()
+		{
+			using (MySqlConnection connection = new MySqlConnection(ConfigurationManager.ConnectionStrings["MyFlixDB"].ConnectionString))
+			{
+				try
+				{
+					connection.Open();
+					MySqlCommand userCommand = new MySqlCommand("Favorite_Films_Insert");
+					userCommand.Connection = connection;
+					userCommand.CommandType = System.Data.CommandType.StoredProcedure;
+					userCommand.Parameters.AddWithValue("UserIDIn", UserID);
+					userCommand.Parameters.AddWithValue("MovieIDIn", MovieID);
+					userCommand.ExecuteNonQuery();
+				}
+				catch
+				{
+					// Handle errors
+				}
+				finally
+				{
+					connection.Close();
+				}
+			}
+		}
+
+		public void Delete()
+		{
+			using (MySqlConnection connection = new MySqlConnection(ConfigurationManager.ConnectionStrings["MyFlixDB"].ConnectionString))
+			{
+				try
+				{
+					connection.Open();
+					MySqlCommand userCommand = new MySqlCommand("Favorite_Film_Delete");
+					userCommand.Connection = connection;
+					userCommand.CommandType = System.Data.CommandType.StoredProcedure;
+					userCommand.Parameters.AddWithValue("UserIDIn", UserID);
+					userCommand.Parameters.AddWithValue("MovieIDIn", MovieID);
+					userCommand.ExecuteNonQuery();
+				}
+				catch
+				{
+					// Handle errors
+				}
+				finally
+				{
+					connection.Close();
+				}
 			}
 		}
 	}

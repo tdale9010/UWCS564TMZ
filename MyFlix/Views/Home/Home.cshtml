@@ -4,6 +4,8 @@
     ViewBag.Title = "Home";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/Home.js"></script>
 
 <h2>Home</h2>
 
@@ -11,14 +13,15 @@
 
 <p>Mininmum Rating: @Html.Raw(Model.MinRating)</p>
 
-</br>
+<br/>
 
 <h3>Favorite Movies</h3>
 <ul>
 	@foreach (var film in Model.FavoriteFilms)
 	{
-		<li>
-			@film
+		<li value="@film.Key">
+			<a href="/Home/MovieDetails?id=@film.Key">@film.Value</a>
+			<button class="removeFilm" value="@film.Key">Remove</button>
 		</li>
 	}
 </ul>
@@ -27,8 +30,9 @@
 <ul>
 	@foreach (var genre in Model.FavoriteGenres)
 	{
-		<li>
+		<li value="@genre">
 			@genre
+			<button class="removeGenre" value="@genre">Remove</button>
 		</li>
 	}
 </ul>
@@ -37,8 +41,9 @@
 <ul>
 	@foreach (var tag in Model.FavoriteTags)
 	{
-		<li>
+		<li value="@tag">
 			@tag
+			<button class="removeTag" value="@tag">Remove</button>
 		</li>
 	}
 </ul>

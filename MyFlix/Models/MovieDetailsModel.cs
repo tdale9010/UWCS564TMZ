@@ -72,4 +72,19 @@ namespace MyFlix.Models
 			dr.Close();
 		}		
 	}
+
+	public class MovieIDModel
+	{
+		public int ID { get; set; }
+	}
+
+	public class TagModel
+	{
+		public string Name { get; set; }
+	}
+
+	public class GenreModel
+	{
+		public string Name { get; set; }
+	}
 }

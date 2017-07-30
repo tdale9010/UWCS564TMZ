@@ -3,8 +3,11 @@
     ViewBag.Title = "MovieDetailsView";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/MovieDetails.js"></script>
 
 <h2>@Model.Title - @Model.Rating%</h2>
+<button id="addFavorites" data-id="@Model.ID">Add To Favorite Movies</button>
 <img src="@Model.ImageURL"/>
 
 <h3>Country of Origin: @Model.Country</h3>
@@ -27,7 +30,9 @@
 	{
 		<li>
 			@tag
+			<button class="favoriteTags" value="@tag">Add to favorite tags</button>
 		</li>
+		
 	}
 </ul>
 <h3>Genres</h3>
@@ -36,7 +41,9 @@
 	{
 		<li>
 			@genre
+			<button class="favoriteGenres" value="@genre">Add to favorite genres</button>
 		</li>
+		
 	}
 </ul>
 <h3>Locations</h3>
