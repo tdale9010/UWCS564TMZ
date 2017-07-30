@@ -6,6 +6,9 @@ using System.Web.Mvc;
 using MySql.Data;
 using MySql.Data.MySqlClient;
 using MyFlix.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security;
 
 namespace MyFlix.Controllers
 {
@@ -150,6 +153,43 @@ namespace MyFlix.Controllers
 				return new EmptyResult();
 			}
 			return Json(string.Empty);
+		}
+
+		public ActionResult UpdateUserName(string userName, string password)
+		{
+			ApplicationUserManager userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+			ApplicationSignInManager signInManager = HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+
+			if(!UserModel.IsPasswordCorrect(UserID.Value, password))
+			{
+				return Json("Invalid password");
+			}
+
+			var user = new ApplicationUser { UserName = userName, Email = userName };
+			var result = userManager.Create(user, password);
+			
+			if (result.Succeeded)
+			{
+				signInManager.SignIn(user, isPersistent: false, rememberBrowser: false);
+				UserModel.UpdateUserName(UserID.Value, userName);
+				return RedirectToAction("Home", "Home");
+			}
+			else
+			{
+				return Json("Error");
+			}
+		}
+
+		public ActionResult UpdateRating(string rating)
+		{
+			decimal decRating = 0.0m;
+			if(!decimal.TryParse(rating, out decRating))
+			{
+				return Json("Invalid rating");
+			}
+
+			UserModel.UpdateRating(UserID.Value, decRating);
+			return RedirectToAction("Home", "Home");
 		}
 	}
 }

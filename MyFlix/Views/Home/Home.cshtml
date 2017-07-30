@@ -9,9 +9,20 @@
 
 <h2>Home</h2>
 
-<h3>@Html.Raw(@Model.Username)</h3>
+<h3 id="dbUserName">@Html.Raw(@Model.Username)</h3>
+<button id="updateUserName">Update Name</button>
+<div id="userNameHolder">
+	<input type="email" id="newUserName" required/>
+	<input type="password" id="password" required/>
+	<button id="saveUserName">Save</button>
+</div>
 
 <p>Mininmum Rating: @Html.Raw(Model.MinRating)</p>
+<button id="updateRating">Update Rating</button>
+<div id="ratingHolder">
+	<input type="number" id="newRating"/>
+	<button id="saveRating">Save</button>
+</div>
 
 <br/>
 

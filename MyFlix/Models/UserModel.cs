@@ -93,6 +93,97 @@ namespace MyFlix.Models
 			}
 		}
 
+		public static void UpdateUserName(int id, string userName)
+		{
+			using (MySqlConnection connection = new MySqlConnection(ConfigurationManager.ConnectionStrings["MyFlixDB"].ConnectionString))
+			{
+				try
+				{
+					connection.Open();
+
+					MySqlCommand userCommand = new MySqlCommand("User_Info_Update_Name");
+					userCommand.Connection = connection;
+					userCommand.CommandType = System.Data.CommandType.StoredProcedure;
+					userCommand.Parameters.AddWithValue("UserIDIn", id);
+					userCommand.Parameters.AddWithValue("NameIn", userName);
+					userCommand.ExecuteNonQuery();
+
+					connection.Close();
+				}
+				catch
+				{
+					// TODO: Handle errors
+				}
+				finally
+				{
+					connection.Close();
+				}
+			}
+		}
+
+		public static bool IsPasswordCorrect(int id, string password)
+		{
+			string hashedPassword = GetHash(password);
+			string storedPassword = string.Empty;
+
+			using (MySqlConnection connection = new MySqlConnection(ConfigurationManager.ConnectionStrings["MyFlixDB"].ConnectionString))
+			{
+				try
+				{
+					connection.Open();
+					MySqlCommand userCommand = new MySqlCommand("Select passwordHash from users where ID=@id");
+					userCommand.Connection = connection;
+					userCommand.CommandType = System.Data.CommandType.Text;
+					userCommand.Parameters.AddWithValue("id", id);
+					MySqlDataReader dr = userCommand.ExecuteReader();
+					while (dr.Read())
+					{
+						storedPassword = (string)dr.GetValue(0);
+					}
+					dr.Close();
+
+					
+				}
+				catch
+				{
+					// TODO: Handle errors
+				}
+				finally
+				{
+					connection.Close();
+				}
+			}
+			return hashedPassword == storedPassword;
+		}
+
+		public static void UpdateRating(int id, decimal rating)
+		{
+			if (rating < 0 || rating > 100)
+				throw new ArgumentOutOfRangeException();
+
+			using (MySqlConnection connection = new MySqlConnection(ConfigurationManager.ConnectionStrings["MyFlixDB"].ConnectionString))
+			{
+				try
+				{
+					connection.Open();
+					MySqlCommand userCommand = new MySqlCommand("User_Info_Update_Rating");
+					userCommand.Connection = connection;
+					userCommand.CommandType = System.Data.CommandType.StoredProcedure;
+					userCommand.Parameters.AddWithValue("UserIDIn", id);
+					userCommand.Parameters.AddWithValue("RatingIn", rating);
+					userCommand.ExecuteNonQuery();
+				}
+				catch
+				{
+					// TODO: Handle errors
+				}
+				finally
+				{
+					connection.Close();
+				}
+			}
+		}
+
 		public static void CreateUser(string username, string password)
 		{
 
