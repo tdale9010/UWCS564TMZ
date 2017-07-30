@@ -53,9 +53,12 @@ namespace MyFlix.Controllers
 			return Json(model, JsonRequestBehavior.AllowGet);
 		}
 
-		public ActionResult Search()
+
+		public ActionResult Search(string genre, string tag)
 		{
 			SearchModel model = new SearchModel();
+			model.Genre = genre;
+			model.Tag = tag;
 			return View(model);
 		}
 

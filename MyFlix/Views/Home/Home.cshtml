@@ -31,7 +31,7 @@
 	@foreach (var genre in Model.FavoriteGenres)
 	{
 		<li value="@genre">
-			@genre
+			<a href="/Home/Search?genre=@genre">@genre</a>
 			<button class="removeGenre" value="@genre">Remove</button>
 		</li>
 	}
@@ -42,7 +42,7 @@
 	@foreach (var tag in Model.FavoriteTags)
 	{
 		<li value="@tag">
-			@tag
+			<a href="/Home/Search?tag=@tag">@tag</a>
 			<button class="removeTag" value="@tag">Remove</button>
 		</li>
 	}

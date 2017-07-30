@@ -18,6 +18,7 @@ namespace MyFlix.Models
 		public string Location { get; set; }
 		public string Country { get; set; }
 		public string Tag { get; set; }
+		private const int MaxResults = 100;
 
 		public List<int> Search()
 		{
@@ -39,9 +40,11 @@ namespace MyFlix.Models
 					command.Connection = connection;
 					command.CommandType = System.Data.CommandType.StoredProcedure;
 					MySqlDataReader dr = command.ExecuteReader();
-					while (dr.Read())
+					int i = 0;
+					while (dr.Read() && i < MaxResults)
 					{
 						movieIds.Add((int)dr.GetValue(0));
+						i++;
 					}
 					dr.Close();
 					connection.Close();
