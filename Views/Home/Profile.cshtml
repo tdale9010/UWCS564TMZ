@@ -1,0 +1,43 @@
+﻿
+@model MyFlix.Models.UserModel
+
+@{
+    ViewBag.Title = "Profile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Profile</h2>
+
+
+
+<h3>@Html.Raw(@Model.Username)</h3>
+<p>Mininmum Rating: @Html.Raw(Model.MinRating)</p>
+</br>
+
+<div id="home dashboard">
+    <h3>Favorite Movies</h3>
+    <ul>
+        @foreach (var film in Model.FavoriteFilms)
+        {
+            <li>
+                @film
+            </li>    }
+    </ul>
+    <h3>Favorite Genres</h3>
+    <ul>
+        @foreach (var genre in Model.FavoriteGenres)
+        {
+            <li>
+                @genre
+            </li>    }
+    </ul>
+    <h3>Favorite Tags</h3>
+    <ul>
+        @foreach (var tag in Model.FavoriteTags)
+        {
+            <li>
+                @tag
+            </li>    }
+    </ul>
+</div>
+
