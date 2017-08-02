@@ -62,11 +62,11 @@ namespace MyFlix.Models
 				Title = dr.GetValue(0).ToString();
 				Rating = (decimal)dr.GetValue(1) * 10.0m;
 				Director = dr.GetValue(2).ToString();
-				Genres = dr.GetValue(3).ToString().Split(',').ToList();
-				Actors = dr.GetValue(4).ToString().Split(',').ToList();
+				Genres = dr.GetValue(3).ToString().Split('|').ToList();
+				Actors = dr.GetValue(4).ToString().Split('|').ToList();
 				Locations = dr.GetValue(5).ToString().Split(',').ToList();
 				Country = dr.GetValue(6).ToString();
-				Tags = dr.GetValue(7).ToString().Split(',').ToList();
+				Tags = dr.GetValue(7).ToString().Split('|').ToList();
 				ImageURL = dr.GetValue(8).ToString().Trim('\"');
 			}
 			dr.Close();

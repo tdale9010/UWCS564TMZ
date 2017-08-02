@@ -1,58 +1,92 @@
 ﻿@model MyFlix.Models.MovieDetailsModel
 @{
-    ViewBag.Title = "MovieDetailsView";
+    ViewBag.Title = Model.Title;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script src="~/Scripts/MovieDetails.js"></script>
 
-<h2>@Model.Title - @Model.Rating%</h2>
-<button id="addFavorites" data-id="@Model.ID">Add To Favorite Movies</button>
-<img src="@Model.ImageURL"/>
 
-<h3>Country of Origin: @Model.Country</h3>
-
-<h3>Directed By @Model.Director</h3>
-
-<h3>Starring</h3>
-<ul>
-	@foreach(var actor in @Model.Actors)
-	{
-		<li>
-			@actor
-		</li>
-	}
-</ul>
-
-<h3>Tags</h3>
-<ul>
-	@foreach(var tag in Model.Tags)
-	{
-		<li>
-			@tag
-			<button class="favoriteTags" value="@tag.Trim()">Add to favorite tags</button>
-		</li>
-		
-	}
-</ul>
-<h3>Genres</h3>
-<ul>
-	@foreach(var genre in Model.Genres)
-	{
-		<li>
-			@genre
-			<button class="favoriteGenres" value="@genre.Trim()">Add to favorite genres</button>
-		</li>
-		
-	}
-</ul>
-<h3>Locations</h3>
-<ul>
-	@foreach(var location in Model.Locations)
-	{
-		<li>
-			@location
-		</li>
-	}
-</ul>
+<div class="container-fluid" style="margin-top:15px;">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="panel panel-primary">
+                <div class="panel panel-heading">
+                    <div class="panel-title"><h2><i>@Model.Title</i></h2></div>
+                </div>
+                <div class="panel-body">
+                    <h4 step="0">@Model.Rating.ToString("0")%</h4>
+                    <img src="@Model.ImageURL" />
+                    <button id="addFavorites" class="btn btn-default" data-id="@Model.ID"><span class="glyphicon glyphicon-star"></span> Favorite</button>
+                    <h4>Country of Origin: <i>@Model.Country</i></h4>
+                    <h4>Director: <i>@Model.Director</i></h4>
+                    <h4>Filmed at:</h4>
+                    <ul class="list-group">
+                        @foreach (var location in Model.Locations)
+            {
+                            <li class="list-group-item">
+                                @location
+                            </li>}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="panel panel-info">
+                <div class="panel panel-heading">
+                    <div class="panel-title">
+                        <h4>Starring</h4>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <ul class="list-group row">
+                        @foreach (var actor in Model.Actors)
+            {
+                            <li class="list-group-item col-md-6">
+                                @actor
+                            </li>}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="panel panel-info">
+                <div class="panel panel-heading">
+                    <div class="panel-title">
+                        <h4>Tags</h4>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <ul class="list-group">
+                        @foreach (var tag in Model.Tags)
+            {
+                            <li class="list-group-item">
+                                @tag
+                                <button class="favoriteTags btn btn-default" value="@tag.Trim()" aria-label="Right Align"><span class="glyphicon glyphicon-star" aria-hidden="true"></span>  Favorite Tags</button>
+                            </li>}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="panel panel-info">
+                <div class="panel panel-heading">
+                    <div class="panel-title">
+                        <h4>Genres</h4>
+                    </div>
+                </div>
+                <ul class="list-group">
+                    @foreach (var genre in Model.Genres)
+            {
+                        <li class="list-group-item">
+                            @genre
+                            <button class="favoriteGenres btn btn-default" value="@genre.Trim()" aria-label="Align Left"><span class="glyphicon glyphicon-star" aria-hidden="true"></span>  Favorite Genres</button>
+                        </li>}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
 

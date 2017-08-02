@@ -12,8 +12,9 @@
 			{
 				$("#results").empty();
 
-				var table = $("<table></table>");
-				var header = $("<tr><td>Title</td><td>Director</td><td>Rating</td><td>Image</td></tr>");
+                var table = $("<table></table>");
+                table.addClass("table table-hover");
+				var header = $("<tr><th>Title</th><th>Director</th><th>Rating</th><th>Image</th></tr>");
 				table.append(header);
 
 				for (var i = 0; i < data.Movies.length; i++){
@@ -21,7 +22,7 @@
 					row.append($("<td><a href='/Home/MovieDetails?id=" + data.Movies[i].ID + "'>" + data.Movies[i].Title + "</a></td>"));
 					row.append($("<td>" + data.Movies[i].Director + "</td>"));
 					row.append($("<td>" + data.Movies[i].Rating + "</td>"));
-					row.append($("<td><img src='" + data.Movies[i].ImageURL + "' /></td>"));
+                    row.append($("<td><img src='" + data.Movies[i].ImageURL + "' /></td>"));
 					table.append(row);
 				}
 

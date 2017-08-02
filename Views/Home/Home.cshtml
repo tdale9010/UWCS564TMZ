@@ -11,7 +11,7 @@
 
 <h3 id="dbUserName">Welcome, @Html.Raw(@Model.Username)!</h3>
 <div class="container">
-    <input type="submit" id="updateUserName" class="btn btn-default" value="Update Name"/>
+    <input type="button" id="updateUserName" class="btn btn-default" value="Update Name"/>
         <div id="userNameHolder" style="margin-top:10px;">
             <form class="form-inline">
 	            <input type="email" class="form-control" id="newUserName" placeholder="User Name" required/>
@@ -21,7 +21,7 @@
         </div>
 
     <p style="margin-top:15px;">Mininmum Rating: @Html.Raw(Model.MinRating)</p>
-    <input type="submit" id="updateRating" class="btn btn-default" value="Update Rating" />
+    <input type="button" id="updateRating" class="btn btn-default" value="Update Rating" />
     <div id="ratingHolder" style="margin-top:10px;">
         <form class="form-inline">
 	        <input type="number" id="newRating" class="form-control" placeholder="New Rating"/>
@@ -43,7 +43,7 @@
                         {
                             <li value="@film.Key">
                                 <a href="/Home/MovieDetails?id=@film.Key">@film.Value</a>
-                                <button class="removeFilm" value="@film.Key">Remove</button>
+                                <button class="removeFilm btn btn-default" value="@film.Key">Remove</button>
                             </li>
                         }
                     </ul>
@@ -61,7 +61,7 @@
                         {
                             <li value="@genre">
                                 <a href="/Home/Search?genre=@genre">@genre</a>
-                                <button class="removeGenre" value="@genre">Remove</button>
+                                <button class="removeGenre btn btn-default" value="@genre">Remove</button>
                             </li>
                         }
                     </ul>
@@ -80,7 +80,7 @@
                         {
                             <li value="@tag">
                                 <a href="/Home/Search?tag=@tag">@tag</a>
-                                <button class="removeTag" value="@tag">Remove</button>
+                                <button class="removeTag btn btn-default" value="@tag">Remove</button>
                             </li>
                         }
                     </ul>
