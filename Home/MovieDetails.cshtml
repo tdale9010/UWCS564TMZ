@@ -1,0 +1,52 @@
+﻿@model MyFlix.Models.MovieDetailsModel
+@{
+    ViewBag.Title = Model.Title;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/MovieDetails.js"></script>
+
+
+<div class="container-fluid">
+    <h2>@Model.Title</h2>
+    <h4 step="0">@Model.Rating.ToString("0")%</h4>
+    <img src="@Model.ImageURL" />
+    <button id="addFavorites" class="btn btn-default" data-id="@Model.ID"><span class="glyphicon glyphicon-star"></span> Favorite</button>
+    <h3>Country of Origin: @Model.Country</h3>
+    <h3>Directed By @Model.Director</h3>
+    <h3>Starring</h3>
+    <ul>
+        @foreach (var actor in Model.Actors)
+        {
+            <li>
+                @actor
+            </li>}
+    </ul>
+    <h3>Tags</h3>
+    <ul>
+        @foreach (var tag in Model.Tags)
+        {
+            <li>
+                @tag
+                <button class="favoriteTags btn btn-default" value="@tag.Trim()" aria-label="Left Align"><span class="glyphicon glyphicon-star" aria-hidden="true"></span>  Favorite Tags</button>
+            </li>}
+    </ul>
+    <h3>Genres</h3>
+    <ul>
+        @foreach (var genre in Model.Genres)
+        {
+            <li>
+                @genre
+                <button class="favoriteGenres btn btn-default" value="@genre.Trim()" aria-label="Align Left"><span class="glyphicon glyphicon-star" aria-hidden="true"></span>  Favorite Genres</button>
+            </li>}
+    </ul>
+    <h3>Locations</h3>
+    <ul>
+        @foreach (var location in Model.Locations)
+        {
+            <li>
+                @location
+            </li>}
+    </ul>
+</div>
+

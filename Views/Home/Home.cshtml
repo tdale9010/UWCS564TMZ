@@ -1,0 +1,91 @@
+﻿@model MyFlix.Models.UserModel
+
+@{
+    ViewBag.Title = "Home";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/Home.js"></script>
+
+<h2>Home</h2>
+
+<h3 id="dbUserName">Welcome, @Html.Raw(@Model.Username)!</h3>
+<div class="container">
+    <input type="button" id="updateUserName" class="btn btn-default" value="Update Name"/>
+        <div id="userNameHolder" style="margin-top:10px;">
+            <form class="form-inline">
+	            <input type="email" class="form-control" id="newUserName" placeholder="User Name" required/>
+	            <input type="password"class="form-control" id="password" placeholder="Password" required/>
+	            <input type="submit" id="saveUserName" class="btn btn-default" value="Save"/>
+            </form>
+        </div>
+
+    <p style="margin-top:15px;">Mininmum Rating: @Html.Raw(Model.MinRating)</p>
+    <input type="button" id="updateRating" class="btn btn-default" value="Update Rating" />
+    <div id="ratingHolder" style="margin-top:10px;">
+        <form class="form-inline">
+	        <input type="number" id="newRating" class="form-control" placeholder="New Rating"/>
+	        <input type="submit" id="saveRating" class="btn btn-default" value="Save" />
+        </form>
+    </div>
+
+    <br/>
+
+    <div class="container-fluid" style="margin-top:30px;">
+        <div class="col-md-3">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4>Favorite Movies</h4>
+                </div>
+                <div class="panel-body">
+                    <ul>
+                        @foreach (var film in Model.FavoriteFilms)
+                        {
+                            <li value="@film.Key">
+                                <a href="/Home/MovieDetails?id=@film.Key">@film.Value</a>
+                                <button class="removeFilm btn btn-default" value="@film.Key">Remove</button>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4>Favorite Genres</h4>
+                </div>
+                <div class="panel-body">
+                    <ul>
+                        @foreach (var genre in Model.FavoriteGenres)
+                        {
+                            <li value="@genre">
+                                <a href="/Home/Search?genre=@genre">@genre</a>
+                                <button class="removeGenre btn btn-default" value="@genre">Remove</button>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4>Favorite Tags</h4>
+                </div>
+                <div class="panel-body">
+                    <ul>
+                        @foreach (var tag in Model.FavoriteTags)
+                        {
+                            <li value="@tag">
+                                <a href="/Home/Search?tag=@tag">@tag</a>
+                                <button class="removeTag btn btn-default" value="@tag">Remove</button>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

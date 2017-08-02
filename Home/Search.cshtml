@@ -1,0 +1,99 @@
+﻿@model MyFlix.Models.SearchModel
+@{
+	ViewBag.Title = "SearchView";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/Search.js"></script>
+
+<div class="container" style="margin-top:30px;">
+    <form id="searchForm" class="form-horizontal">
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Title</label>
+            <div class="col-sm-10">
+                <input id="Title" class="form-control" name="Title" placeholder="Title"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Rating</label>
+            <div class="col-sm-10">
+                <input id="Rating" class="form-control" name="Rating" placeholder="Rating"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Director</label>
+            <div class="col-sm-10">
+                <input id="Director" class="form-control" name="Director" placeholder="Director" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Genre</label>
+            <div class="col-sm-10">
+                <input id="Genre" class="form-control" name="Genre" value="@Model.Genre" placeholder="Genre"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Actor</label>
+            <div class="col-sm-10">
+                <input id="Actor" class="form-control" name="Actor" placeholder="Actor"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Location</label>
+            <div class="col-sm-10">
+                <input id="Location" class="form-control" name="Location" placeholder="Location"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Country</label>
+            <div class="col-sm-10">
+                <input id="Country" class="form-control" name="Country" placeholder="Country"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Tag</label>
+            <div class="col-sm-10">
+                <input id="Tag" class="form-control" name="Tag" value="@Model.Tag" placeholder="Tag"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="button" id="submit" class="btn btn-default" aria-label="Left Align"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<!--/*
+    <form id="searchForm">
+	    <label>Title</label>
+	    <input id="Title" name="Title"/>
+
+	    <label>Rating</label>
+	    <input id="Rating" name="Rating"/>
+
+	    <label>Director</label>
+	    <input id="Director" name="Director"/>
+
+	    <label>Genre</label>
+	    <input id="Genre" name="Genre" value="@Model.Genre"/>
+
+	    <label>Actor</label>
+	    <input id="Actor" name="Actor"/>
+
+	    <label>Location</label>
+	    <input id="Location" name="Location"/>
+
+	    <label>Country</label>
+	    <input id="Country" name="Country"/>
+
+	    <label>Tag</label>
+	    <input id="Tag" name="Tag" value="@Model.Tag"/>
+
+	    <input type="button" id="submit" value="Submit"/>
+    </form>
+    -->
+<div id="results">
+
+</div>
